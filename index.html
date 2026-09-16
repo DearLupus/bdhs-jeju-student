@@ -149,6 +149,15 @@
   .site-card{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:14px; background:var(--paper);}
   .site-card .site-title{background:var(--basalt); color:#fff; font-weight:800; font-size:13.5px; padding:9px 14px;}
   .site-card .site-body{padding:12px 14px; font-size:12.5px; line-height:1.75; color:#3a3530;}
+  .site-apps{display:flex; flex-wrap:wrap; gap:8px; padding:0 14px 14px;}
+  .app-link{
+    display:inline-block; background:var(--teal); color:#fff; text-decoration:none;
+    font-size:11.5px; font-weight:700; padding:8px 12px; border-radius:8px;
+  }
+  .app-link:active{opacity:.8;}
+  .site-notice{margin:0 14px 14px; padding:12px; border-radius:10px; background:#fff6ee; border-left:3px solid var(--tangerine);}
+  .site-notice-title{font-size:11.5px; font-weight:800; color:#8a4a1c; margin-bottom:6px;}
+  .site-notice .safe-list{margin:0; padding-left:18px; line-height:1.8; color:#5a3d24;}
 
   .bus-card{border:1.5px solid var(--line); border-radius:12px; padding:14px; background:linear-gradient(180deg,#fffefb,var(--sand));}
   .bus-card .btitle{font-family:var(--mono); font-weight:800; font-size:15px; color:var(--ink); display:flex; align-items:center; justify-content:space-between;}
@@ -274,7 +283,20 @@ const mealOrder = [
 const sites = [
  {name:"4.3 평화공원 · 평화기념관", body:"제주4.3 희생자를 추모하고 사건의 역사적 의미를 되새기기 위해 조성된 공간. 4.3평화기념관, 위령제단, 위령탑, 봉안관 등 추모·기록 시설이 있으며 사건의 배경과 전개, 희생자 이야기, 진상 규명 과정을 전시로 살펴볼 수 있다. 제주시 봉개동 소재."},
  {name:"다이나믹메이즈", body:"서귀포시 표선면의 실내 미션형 미로 체험 시설. 날씨와 무관하게 팀을 이뤄 '화산섬의 비밀'을 파헤치는 액티비티로, 총 15개 스테이지(빅볼 통과·거울 미로·벽 타기·밴드 탈출 등)를 협동해서 통과한다. (레벨2 포함)"},
- {name:"9.81 파크", body:"중력가속도(9.81m/s²)만으로 즐기는 다운힐 레이싱과 업힐 레이싱. 자체 개발 GR 차량과 편경사·커브가 반영된 트랙에서 레이싱을 즐기며, 앱 연동으로 기록·영상 확인이 가능하다. (레이싱2회, 스포츠랩3회 패키지)"},
+ {name:"9.81 파크", body:"중력가속도(9.81m/s²)만으로 즐기는 다운힐 레이싱과 업힐 레이싱. 자체 개발 GR 차량과 편경사·커브가 반영된 트랙에서 레이싱을 즐기며, 앱 연동으로 기록·영상 확인이 가능하다. (레이싱2회, 스포츠랩3회 패키지)",
+  apps:[
+    {label:"📱 안드로이드 앱 다운로드", url:"https://play.google.com/store/apps/details?id=com.race981.app&pcampaignid=web_share"},
+    {label:"📱 아이폰 앱 다운로드", url:"https://apps.apple.com/kr/app/9-81-park/id1456217076"}
+  ],
+  notice:[
+    "레이스를 타려는 사람은 파크 방문 전 미리 9.81파크 앱을 다운받고 회원가입까지 완료해야 해요.",
+    "앱에서 안전영상을 꼭 시청해야 레이스에 들어갈 수 있어요. (앱 실행 후 홈 화면 오른쪽 위 캠코더 모양 '안전영상' 아이콘을 눌러 시청)",
+    "현장에서 티켓을 받은 뒤 앱에 등록하면 내가 달린 영상·기록·배틀 기능까지 볼 수 있어요.",
+    "닉네임을 부적절하게 만들면 영상과 기록을 못 받으니 주의하세요.",
+    "운동화(굽 없이 앞뒤가 막힌 신발)를 신어야 타요. 안 맞으면 현장 매장에서 대체품을 살 수 있어요.",
+    "레이스 탈 때는 휴대폰만 챙기고, 가방 같은 큰 짐은 버스에 두고 이동하세요."
+  ]
+ },
  {name:"제주 아트서커스 & 제트보트", body:"아트서커스 — 빛의 예술과 음악, 화려한 안무가 어우러진 서커스쇼. 제트보트 체험 — 제주 중문의 절경을 무대로 한 스릴 넘치는 해상 레저로, 뉴질랜드에서 직수입한 검증된 보트로 안전과 스릴을 동시에 제공."},
  {name:"아르떼뮤지엄 & 제주동문시장", body:"아르떼뮤지엄 — 제주 애월의 옛 공장을 업사이클링한 국내 최대 규모 몰입형 미디어아트 전시관(약 1,400평, 16개 전시). 제주동문시장 — 감귤·토산품·수산물 등을 갖춘 우수시장으로 오메기떡·빙떡 등 먹거리도 즐길 수 있다."}
 ];
@@ -465,7 +487,15 @@ function renderSchedule(){
 function renderVendors(){
   let html = `<div class="card"><div class="card-head"><div><div class="eb">${eb('vendors')}</div><h2>수학여행 체험 장소 소개</h2></div></div>`;
   sites.forEach(s=>{
-    html += `<div class="site-card"><div class="site-title">${s.name}</div><div class="site-body">${s.body}</div></div>`;
+    html += `<div class="site-card"><div class="site-title">${s.name}</div><div class="site-body">${s.body}</div>`;
+    if(s.apps){
+      html += `<div class="site-apps">${s.apps.map(a=>`<a href="${a.url}" target="_blank" rel="noopener" class="app-link">${a.label}</a>`).join('')}</div>`;
+    }
+    if(s.notice){
+      html += `<div class="site-notice"><div class="site-notice-title">⚠️ 미리 확인하세요</div>
+        <ul class="safe-list" style="font-size:12px;">${s.notice.map(n=>`<li>${n}</li>`).join('')}</ul></div>`;
+    }
+    html += `</div>`;
   });
   html += `</div>`;
   return html;
