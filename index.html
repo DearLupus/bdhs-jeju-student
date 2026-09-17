@@ -422,7 +422,15 @@ const tabs = [
 
 const tabbar = document.getElementById('tabbar');
 const main = document.getElementById('main');
-let currentDay = 0;
+function getDefaultDay(){
+  const now = new Date();
+  const day1End = new Date('2026-09-16T22:00:00+09:00'); // 1일차 밤 취침점호 이후 2일차로 전환
+  const day2End = new Date('2026-09-17T22:00:00+09:00'); // 2일차 밤 취침점호 이후 3일차로 전환
+  if(now < day1End) return 0;
+  if(now < day2End) return 1;
+  return 2;
+}
+let currentDay = getDefaultDay();
 let currentSafety = "준비물";
 let activeTab = tabs[0].id;
 
